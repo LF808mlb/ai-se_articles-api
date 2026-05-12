@@ -6,16 +6,8 @@ const chunkSchema = new mongoose.Schema({
     ref: 'Document',
     required: true,
   },
-  text: {
-    type: String,
-    required: true,
-  },
-  embedding: {
-    type: [Number],
-    default: [],
-  },
+  text: { type: String, required: true },
+  embedding: { type: [Number], default: [] },
 });
 
-const Chunk = mongoose.model('Chunk', chunkSchema);
-
-export default Chunk;
+export default mongoose.model('Chunk', chunkSchema);

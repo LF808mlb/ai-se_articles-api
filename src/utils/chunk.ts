@@ -1,4 +1,6 @@
-export const chunkText = (text: string): string[] => {
-  // TODO: split text into fixed-size chunks of 500 characters
+const CHUNK_SIZE = 500;
+
+export const chunkText = (_text: string): string[] => {
+  // TODO: implement
   return [];
 };
