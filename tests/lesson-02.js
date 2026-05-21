@@ -1,5 +1,12 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const indexTsPath = join(__dirname, '../src/index.ts');
+const envPath = join(__dirname, '../.env');
+dotenv.config({ path: envPath });
 const PORT = Number(process.env.PORT || 3000);
 const BASE = `http://localhost:${process.env.PORT}`;
 let pass = 0;
@@ -72,7 +79,7 @@ await test(`GET /health — server is running on port ${PORT}`, async () => {
 
 await test('GET /health — port comes from process.env.PORT', async () => {
   const _PORT = process.env.PORT;
-  const indexTs = readFileSync('./src/index.ts', 'utf8');
+  const indexTs = readFileSync(indexTsPath, 'utf8');
   const portTest = /port\s*=\s*process\.env\.PORT/.test(indexTs);
   expect(portTest, 'portTest').toBeTruthy();
   const res = await fetch(`${BASE}/health`);
@@ -81,7 +88,7 @@ await test('GET /health — port comes from process.env.PORT', async () => {
 });
 
 await test('GET /health — mongoUri comes from process.env.MONGO_URI', async () => {
-  const indexTs = readFileSync('./src/index.ts', 'utf8');
+  const indexTs = readFileSync(indexTsPath, 'utf8');
   const mongoUriTest = /mongoUri\s*=\s*process\.env\.MONGO_URI/.test(indexTs);
   expect(mongoUriTest, 'mongoUriTest').toBeTruthy();
   const _MONGO_URI = process.env.MONGO_URI;
