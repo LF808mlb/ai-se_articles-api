@@ -1,8 +1,11 @@
-const BASE = 'http://localhost:3000';
+import 'dotenv/config';
+const PORT = Number(process.env.PORT || 3000);
+const BASE = `http://localhost:${PORT}`;
+
 let pass = 0;
 let fail = 0;
 
-class Skip extends Error {}
+class Skip extends Error { }
 
 async function test(label, fn) {
   try {
@@ -35,6 +38,9 @@ function expect(value, label) {
     },
     toBeString() {
       if (typeof value !== 'string') throw new Error(`${label}: expected a string, got ${typeof value}`);
+    },
+    toBeDefined() {
+      if (value === undefined) throw new Error(`${label}: expected ${value} to be defined`);
     },
   };
 }
@@ -94,6 +100,7 @@ await test('POST /documents — uploads a PDF and returns the created document',
   const res = await fetch(`${BASE}/documents`, { method: 'POST', body: formData });
   expect(res.status, 'status').toBe(201);
   const body = await res.json();
+  expect(body.data, 'body.data').toBeDefined();
   expect(body.success, 'body.success').toBeTrue();
   expect(body.error, 'body.error').toBeNull();
   expect(body.data.title, 'body.data.title').toBe('Test Article');
