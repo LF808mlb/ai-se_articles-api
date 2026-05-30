@@ -1,11 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
 import router from './routes/index.js';
 import { errorHandler } from './middleware/error.js';
 
 const app = express();
-const port = 3000;
-const mongoUri = 'mongodb://127.0.0.1:27017/articles';
+const port = process.env.PORT || 3000;
+const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/articles';
 
 app.use(express.json());
 
