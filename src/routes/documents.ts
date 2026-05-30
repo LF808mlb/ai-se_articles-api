@@ -1,9 +1,12 @@
+import multer from 'multer';
 import { Router } from 'express';
 import { uploadDocument, getDocuments } from '../controllers/documents.js';
 
+const upload = multer({ dest: 'uploads/' });
+
 const router = Router();
 
-router.post('/', uploadDocument);
+router.post('/', upload.single('file'), uploadDocument);
 router.get('/', getDocuments);
 
 export default router;
