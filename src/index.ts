@@ -1,5 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config();
+if (!process.env.NEBIUS_API_KEY) {
+  console.error('Error: NEBIUS_API_KEY is not set in .env');
+  process.exit(1);
+}
 import express from 'express';
 import mongoose from 'mongoose';
 import router from './routes/index.js';
